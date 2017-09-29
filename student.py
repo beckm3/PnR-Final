@@ -60,7 +60,7 @@ class Piggy(pigo.Pigo):
         ##### WRITE YOUR FIRST PROJECT HERE
         self.to_the_right()
         self.to_the_left()
-        #self.now_kick()
+        self.sprinkler()
         #self.cha_cha()
         #self.walk_it_by_yourself()
 
@@ -76,7 +76,11 @@ class Piggy(pigo.Pigo):
             self.encF(5)
 
 
-
+    def sprinkler (self):
+        for ang in range(30,90,120):
+            self.servo(ang)
+            time.sleep(.2)
+            
 
     def nav(self):
         """auto pilots and attempts to maintain original heading"""
