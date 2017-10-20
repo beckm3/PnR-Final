@@ -45,7 +45,7 @@ class Piggy(pigo.Pigo):
                 "t": ("Turn test", self.turn_test),
                  "s": ("Check status", self.status),
                 "q": ("Quit", quit_now)
-                "f": ("Ful Obstacle Count", self.full_obstacle_count)
+                "f": ("Ful Obstacle Count", self.full_obstacle_count),
                 }
         # loop and print the menu...
         for key in sorted(menu.keys()):
@@ -73,19 +73,17 @@ class Piggy(pigo.Pigo):
 
     def obstacle_count(self):
         """scans and estimates the number of obstacles within sight"""
-        self.wide_scan(count=5)
+        self.wide_scan()
         found_something = False
         counter = 0
-        threshold = 60
         for distance in self.scan:
-            if distance and distance < threshold and not found_something:
+            if distance and distance < 200 and not found_something:
                 found_something = True
                 counter += 1
-                print("Object #%d found, I think" % counter)
-            if distance and distance > threshold and found_something:
+                print("Object # %d found, I think" % counter)
+            if distance and distance > 200 and found_something:
                 found_something = False
-        print("\n-------I see %d object(s)------\n" % counter)
-        return counter
+        print("\n----I SEE %d OBJECTS----\n" % counter)
 
 
 
