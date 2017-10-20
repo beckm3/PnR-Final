@@ -37,14 +37,15 @@ class Piggy(pigo.Pigo):
 
     def menu(self):
         """Displays menu dictionary, takes key-input and calls method"""
-        ## This is a DICTIONARY, it's a list with custom index values
+        ## This is a DICTIONARY, it's a list with custom index valu
         # You may change the menu if you'd like to add an experimental method
         menu = {"n": ("Navigate forward", self.nav),
                 "d": ("Dance", self.dance),
                 "c": ("Calibrate", self.calibrate),
                 "t": ("Turn test", self.turn_test),
-                "s": ("Check status", self.status),
+                 "s": ("Check status", self.status),
                 "q": ("Quit", quit_now)
+                ""
                 }
         # loop and print the menu...
         for key in sorted(menu.keys()):
@@ -62,9 +63,29 @@ class Piggy(pigo.Pigo):
         if(self.safety_check()):
             self.to_the_right()
             self.to_the_left()
-            self.sprinkler()
-            #self.cha_cha()
-            #self.walk_it_by_yourself()
+
+    def full_obstacle_count(self):
+        counter = 0
+        for x in range(4):
+            counter += self.obstacle_count()
+            self.encR(6)
+        print("\n-------I see %d object(s)total------\n" % counter)
+
+    def obstacle_count(self):
+        """scans and estimates the number of obstacles within sight"""
+        self.wide_scan(count=5)
+        found_something = False
+        counter = 0
+        threshold = 60
+        for distance in self.scan:
+            if distance and distance < threshold and not found_something:
+                found_something = True
+                counter += 1
+                print("Object #%d found, I think" % counter)
+            if distance and distance > threshold and found_something:
+                found_something = False
+        print("\n-------I see %d object(s)------\n" % counter)
+        return counter
 
 
 
@@ -95,7 +116,7 @@ class Piggy(pigo.Pigo):
     def to_the_left(self):
         for x in range(3):
             self.encL(10)
-            self.encF(5)
+              self.encF(5)
 
 
     def sprinkler (self):
@@ -110,7 +131,6 @@ class Piggy(pigo.Pigo):
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
-
 
 ####################################################
 ############### STATIC FUNCTIONS
