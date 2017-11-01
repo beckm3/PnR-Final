@@ -45,8 +45,7 @@ class Piggy(pigo.Pigo):
                 "t": ("Turn test", self.turn_test),
                  "s": ("Check status", self.status),
                 "q": ("Quit", quit_now)
-                "f": ("Ful Obstacle Count", self.full_obstacle_count),
-                }
+
         # loop and print the menu...
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
@@ -68,12 +67,12 @@ class Piggy(pigo.Pigo):
         counter = 0
         for x in range(4):
             counter += self.obstacle_count()
-            self.encR(6)
+            self.encR(8)
         print("\n-------I see %d object(s) total------\n" % counter)
 
     def obstacle_count(self):
         """scans and estimates the number of obstacles within sight"""
-        for x in range(85, 95):
+        for x in range(65, 115):
             self.wide_scan(count=5)
             found_something = False
             counter = 0
@@ -132,6 +131,26 @@ class Piggy(pigo.Pigo):
         print("-----------! NAVIGATION ACTIVATED !------------\n")
         print("-------- [ Press CTRL + C to stop me ] --------\n")
         print("-----------! NAVIGATION ACTIVATED !------------\n")
+        # robot scans around itself and moves to the largest open area
+        self.full_obstacle_count()
+        while True:
+            if self.is_clear():
+                self.cruise()
+            else:
+                self.servo(self.dist(scan[x]))
+                self.encR(x)
+                self.cruise()
+
+
+def cruise(self):
+    """drive straight while path is clear"""
+    self.fwd()
+    print("about to drive forward")
+    while self.dist() > self.SAFE_STOP_DIST:
+        time.sleep(.1)
+
+
+
 
 ####################################################
 ############### STATIC FUNCTIONS
