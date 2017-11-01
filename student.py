@@ -83,7 +83,7 @@ class Piggy(pigo.Pigo):
                     found_something = True
                     counter += 1
                     print("Object #%d found, I think" % counter)
-                if self.scan[x] and self.scan[x] > threshold and found_something :
+                if self.scan[x] and self.scan[x] > threshold and found_something:
                     found_something = False
             print("\n-------I see %d object(s)------\n" % counter)
             return counter
