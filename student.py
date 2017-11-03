@@ -143,23 +143,24 @@ class Piggy(pigo.Pigo):
         self.restore_heading()
 
 
-
-
-    def nav(self):
-        """auto pilots and attempts to maintain original heading"""
-        logging.debug("Starting the nav method")
-        print("-----------! NAVIGATION ACTIVATED !------------\n")
-        print("-------- [ Press CTRL + C to stop me ] --------\n")
-        print("-----------! NAVIGATION ACTIVATED !------------\n")
-        # robot scans around itself and moves to the largest open area
-        self.full_obstacle_count()
+def nav(self):
+    """auto pilots and attempts to maintain original heading"""
+    logging.debug("Starting the nav method")
+    print("-----------! NAVIGATION ACTIVATED !------------\n")
+    print("-------- [ Press CTRL + C to stop me ] --------\n")
+    print("-----------! NAVIGATION ACTIVATED !------------\n")
+    # robot scans around itself and moves to the largest open area
+    self.full_obstacle_count()
+    self.servo(self.MIDPOINT)
+    if (self.dist() < self.SAFE_STOP_DIST):
+        self.cruise()
+    else:
         while True:
-            if self.is_clear():
+            self.encR(2)
+            time.sleep(.5)
+            if (self.dist() > self.SAFE_STOP_DIST):
                 self.cruise()
-            else:
-                self.servo(self.dist(scan[x]))
-                self.encR(x)
-                self.cruise()
+                self.restore_heading()
 
 
 def cruise(self):
