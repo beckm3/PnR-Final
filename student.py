@@ -168,7 +168,7 @@ def cruise(self):
     self.fwd()
     print("about to drive forward")
     while self.dist() > self.SAFE_STOP_DIST:
-        time.sleep(.1)
+        time.sleep(.5)
 
 
 
