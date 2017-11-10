@@ -93,7 +93,7 @@ class Piggy(pigo.Pigo):
 
     def safety_check(self):
        """check for nearby obstacles"""
-        self.servo(self.MIDPOINT) # look straight ahead
+         self.servo(self.MIDPOINT) # look straight ahead
         for loop in range(4):
             if not self.is_clear():
                 print("NOT GOING TO DANCE!")
@@ -155,8 +155,8 @@ def nav(self):
     difference = (right_now - self.start_time).seconds
     print ("It took you %d secomds to run this" % difference)
     # robot scans around itself and moves to the largest open area
-    self.full_obstacle_count()
     self.servo(self.MIDPOINT)
+    self.full_obstacle_count()
     if (self.dist() < self.SAFE_STOP_DIST):
         self.cruise()
     else:
