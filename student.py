@@ -10,7 +10,6 @@ LOG_FILE = "/home/pi/PnR-Final/log_robot.log"  # don't forget to make this file!
 LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 logging.basicConfig(filename=LOG_FILE, format=LOG_FORMAT, level=LOG_LEVEL)
 
-
 class Piggy(pigo.Pigo):
     """Student project, inherits teacher Pigo class which wraps all RPi specific functions"""
 
@@ -47,7 +46,6 @@ class Piggy(pigo.Pigo):
                 "t": ("Test Restore Heading", self.test_restore_heading),
                  "s": ("Check status", self.status),
                 "q": ("Quit", quit_now)
-
         # loop and print the menu...
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
@@ -146,27 +144,52 @@ class Piggy(pigo.Pigo):
 
 
 def nav(self):
-    """auto pilots and attempts to maintain original heading"""
-    logging.debug("Starting the nav method")
-    print("-----------! NAVIGATION ACTIVATED !------------\n")
-    print("-------- [ Press CTRL + C to stop me ] --------\n")
-    print("-----------! NAVIGATION ACTIVATED !------------\n")
-    right_now = datetime.datetime.utcnow()
-    difference = (right_now - self.start_time).seconds
-    print ("It took you %d secomds to run this" % difference)
-    # robot scans around itself and moves to the largest open area
-    self.servo(self.MIDPOINT)
-    self.full_obstacle_count()
-    if (self.dist() < self.SAFE_STOP_DIST):
-        self.cruise()
-    else:
+    def nav(self):
+        """auto pilots and attempts to maintain original heading"""
+        logging.debug("Starting the nav method")
+        print("-----------! NAVIGATION ACTIVATED !------------\n")
+        print("-------- [ Press CTRL + C to stop me ] --------\n")
+        print("-----------! NAVIGATION ACTIVATED !------------\n")
+        # right_now = datetime.datetime.utcnow()
+        # difference = (right_now - self.start_time).seconds
+        # print ("It took you %d seconds to run this" % difference)
+        self.servo(self.MIDPOINT)
         while True:
-            self.encR(2)
-            time.sleep(.5)
-            if (self.dist() > self.SAFE_STOP_DIST):
+            # if path is clear, robot will cruise
+            self.restore_heading()
+            if self.is_clear():
+                self.servo(self.MIDPOINT)
                 self.cruise()
-                self.restore_heading()
-
+            else:
+                self.check_left()
+                if self.is_clear():
+                    # if path after turning left is clear, robot will cruise
+                    self.nav_cruise()
+                else:
+                    # if path after turning left is not clear, robot will turn right one more time to check
+                    self.check_left()
+                    if self.is_clear():
+                        self.nav_cruise()
+                    else:
+                        # if path after checking left twice is not clear, robot will return to midpoint
+                        print("Path to the right is not clear, turning to midpoint.")
+                        self.restore_heading()
+                        time.sleep(2)
+                        if self.is_clear():
+                            self.nav_cruise()
+                        else:
+                            # if midpoint is not clear, robot will turn right and check
+                            self.check_right()
+                            if self.is_clear():
+                                self.nav_cruise()
+                            else:
+                                # if path after turning right is not clear, robot will turn right one more time to check
+                                self.check_right()
+                                if self.is_clear():
+                                    self.nav_cruise()
+                                else:
+                                    # if path after turning left twice is not clear, robot will back up
+                                    self.encB(5)
 
 def smooth_turn(self):
     self.right_rot()
