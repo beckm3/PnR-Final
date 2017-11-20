@@ -198,13 +198,22 @@ def smooth_turn(self):
     while True:
         if self.dist() > 100:
             self.stop()
+            self.servo(15, 45, 90)
             print("I think I found a place to go")
         elif datetime.datetime.utcnow() - start > datetime.timedelta(seconds=10):
             self.stop
             print("I give up :(")
         time.sleep(.2)
 
+def check_right(self):
+         self.servo(self.MIDPOINT)
+         self.encR(5)
+         time.sleep(1)
 
+def check_left(self):
+    self.servo(self.MIDPOINT)
+    self.encL(5)
+    time.sleep(1)
 
 
 def cruise(self):
