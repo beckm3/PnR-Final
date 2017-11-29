@@ -191,6 +191,16 @@ def nav(self):
                                     # if path after turning left twice is not clear, robot will back up
                                     self.encB(5)
 
+    def nav_two(self):
+        right_now = datetime.datetime.utcnow()
+        difference = (right_now - self.start_time).seconds
+        print("It took you %d seconds to run this" % difference)
+        while self.encR(30):
+            if self.scan[x] > 50:
+                time.sleep(2)
+                self.servo(x)
+                self.encR(x % 8)
+                print("I have found an open area.")
 def smooth_turn(self):
     self.right_rot()
     start = datetime.datetime.utcnow()
@@ -201,7 +211,6 @@ def smooth_turn(self):
             self.servo(15, 45, 90)
             print("I think I found a place to go")
         elif datetime.datetime.utcnow() - start > datetime.timedelta(seconds=10):
-            self.stop
             print("I give up :(")
         time.sleep(.2)
 
