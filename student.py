@@ -45,6 +45,7 @@ class Piggy(pigo.Pigo):
                 "c": ("Calibrate", self.calibrate),
                 "t": ("Test Restore Heading", self.test_restore_heading),
                  "s": ("Check status", self.status),
+                "2": ("Nav method attempt", self.nav_two)
                 "q": ("Quit", quit_now)
         # loop and print the menu...
         for key in sorted(menu.keys()):
