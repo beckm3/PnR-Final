@@ -118,7 +118,7 @@ class Piggy(pigo.Pigo):
     def to_the_left(self):
         for x in range(3):
             self.encL(10)
-              self.encF(5)
+            self.encF(5)
 
 
     def sprinkler (self):
