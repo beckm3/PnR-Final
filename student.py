@@ -18,7 +18,7 @@ class Piggy(pigo.Pigo):
         print("I have been instantiated!")
         self.start_time = datetime.datetime.utcnow()
         # Our servo turns the sensor. What angle of the servo( ) method sets it straight?
-        self.MIDPOINT = 112
+        self.MIDPOINT = 100
         # YOU DECIDE: How close can an object get (cm) before we have to stop?
         self.SAFE_STOP_DIST = 30
         self.HARD_STOP_DIST = 15
