@@ -91,7 +91,7 @@ class Piggy(pigo.Pigo):
 
 
     def safety_check(self):
-       """check for nearby obstacles"""
+        """check for nearby obstacles"""
         self.servo(self.MIDPOINT) # look straight ahead
         for loop in range(4):
             if not self.is_clear():
@@ -127,7 +127,7 @@ class Piggy(pigo.Pigo):
             time.sleep(1)
 
     def restore_heading(self):
-       """Uses self.turm_track to reorient yo original heading"""
+        """Uses self.turm_track to reorient yo original heading"""
         print("Restoring heading!!")
         if self.turn_track > 0:
             self.encL(abs(self.turn_track))
