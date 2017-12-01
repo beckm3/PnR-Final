@@ -45,8 +45,8 @@ class Piggy(pigo.Pigo):
                 "c": ("Calibrate", self.calibrate),
                 "t": ("Test Restore Heading", self.test_restore_heading),
                  "s": ("Check status", self.status),
-                "2": ("Nav method attempt", self.nav_two)
-                "q": ("Quit", quit_now)
+                "2": ("Nav method attempt", self.nav_two),
+                "q": ("Quit", quit_now)}
         # loop and print the menu...
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
@@ -92,7 +92,7 @@ class Piggy(pigo.Pigo):
 
     def safety_check(self):
        """check for nearby obstacles"""
-         self.servo(self.MIDPOINT) # look straight ahead
+        self.servo(self.MIDPOINT) # look straight ahead
         for loop in range(4):
             if not self.is_clear():
                 print("NOT GOING TO DANCE!")
@@ -220,14 +220,14 @@ class Piggy(pigo.Pigo):
         self.right_rot()
         start = datetime.datetime.utcnow()
         self.servo(self.MIDPOINT)
-    while True:
-        if self.dist() > 100:
-            self.stop()
-            self.servo(15, 45, 90)
-            print("I think I found a place to go")
-        elif datetime.datetime.utcnow() - start > datetime.timedelta(seconds=10):
-            print("I give up :(")
-        time.sleep(.2)
+        while True:
+            if self.dist() > 100:
+                self.stop()
+                self.servo(15, 45, 90)
+                print("I think I found a place to go")
+            elif datetime.datetime.utcnow() - start > datetime.timedelta(seconds=10):
+                print("I give up :(")
+                time.sleep(.2)
 
     def check_right(self):
         self.servo(self.MIDPOINT)
