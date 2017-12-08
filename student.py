@@ -205,19 +205,7 @@ class Piggy(pigo.Pigo):
                                             self.restore_heading()
                                             self.encB(5)
 
-    def nav_two(self):
-        self.fwd()
-        while True:
-            self.servo(self.MIDPOINT)
-            if self.dist() < self.SAFE_STOP_DIST:
-                break
-            self.servo(self.MIDPOINT + 10):
-            if self.dist() < self.SAFE_STOP_DIST:
-                break
-            self.servo(self.MIDPOINT - 10):
-            if self.dist() < self.SAFE_STOP_DIST:
-                break
-        self.stop()
+    
 
     def smooth_turn(self):
         self.right_rot()
